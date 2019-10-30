@@ -18,7 +18,7 @@ public class Produto {
         this.descricao="";
         Marca oMarca = new Marca();
         this.marca = oMarca;
-        this.preco=0;
+        this.preco = (float) 0.00;
     }
 
     public Produto(int idProduto, String nomeProduto, String descricao, Marca marca, float preco) {

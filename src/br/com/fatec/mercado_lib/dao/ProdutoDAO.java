@@ -51,13 +51,13 @@ public class ProdutoDAO implements GenericDAO {
     public Boolean inserir(Object object) {
         Produto oProduto = (Produto) object;
         PreparedStatement stmt = null;
-        String sql = "insert into produto (nomeproduto,idmarca,descricao,preco) values (?,?,?,?)";  
+        String sql = "insert into produto (nomeproduto,idmarca,preco,descricao) values (?,?,?,?)";  
         try {
             stmt = conexao.prepareStatement(sql);
             stmt.setString(1, oProduto.getNomeProduto());        
             stmt.setInt(2, oProduto.getMarca().getIdMarca());
-            stmt.setString(3, oProduto.getDescricao()); 
-            stmt.setFloat(4, oProduto.getPreco());
+            stmt.setFloat(3, oProduto.getPreco());
+            stmt.setString(4, oProduto.getDescricao()); 
             stmt.execute();
             return true;
         } catch (Exception ex) {
@@ -77,14 +77,14 @@ public class ProdutoDAO implements GenericDAO {
     public Boolean alterar(Object object) {
         Produto oProduto = (Produto) object;
         PreparedStatement stmt = null;
-        String sql= "update produto set nomeproduto=?, idmarca=? where idProduto=?"; 
+        String sql= "update produto set nomeproduto=?, idmarca=?, idProduto=?, preco=?  where  descricao=?"; 
         try {
             stmt = conexao.prepareStatement(sql);
             stmt.setString(1, oProduto.getNomeProduto());
             stmt.setInt(2, oProduto.getMarca().getIdMarca());
             stmt.setInt(3, oProduto.getIdProduto());
-            stmt.setString(4, oProduto.getDescricao()); 
-            stmt.setFloat(5, oProduto.getPreco());            
+            stmt.setFloat(4, oProduto.getPreco()); 
+            stmt.setString(5, oProduto.getDescricao()); 
             stmt.execute();
             return true;
         } catch (Exception ex) {
