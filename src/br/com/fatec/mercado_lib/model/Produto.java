@@ -7,9 +7,10 @@ package br.com.fatec.mercado_lib.model;
 public class Produto {
     
     private int idProduto;
-    private String nomeProduto, descricao;
+    private String nomeProduto;
+    private String descricao;
     private Marca marca;
-    private float preco;
+    private double preco;
     
     
     public Produto() {
@@ -18,7 +19,7 @@ public class Produto {
         this.descricao="";
         Marca oMarca = new Marca();
         this.marca = oMarca;
-        this.preco = (float) 0.00;
+        this.preco = 0.00;
     }
 
     public Produto(int idProduto, String nomeProduto, String descricao, Marca marca, float preco) {
@@ -60,12 +61,12 @@ public class Produto {
         this.descricao = descricao;
     }
 
-    public float getPreco() {
+    public double getPreco() {
         return preco;
     }
 
  
-    public void setPreco(float preco) {
+    public void setPreco(double preco) {
         this.preco = preco;
     }
     

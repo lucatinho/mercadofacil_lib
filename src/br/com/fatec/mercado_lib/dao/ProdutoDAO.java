@@ -56,7 +56,7 @@ public class ProdutoDAO implements GenericDAO {
             stmt = conexao.prepareStatement(sql);
             stmt.setString(1, oProduto.getNomeProduto());        
             stmt.setInt(2, oProduto.getMarca().getIdMarca());
-            stmt.setFloat(3, oProduto.getPreco());
+            stmt.setDouble(3, oProduto.getPreco());
             stmt.setString(4, oProduto.getDescricao()); 
             stmt.execute();
             return true;
@@ -83,7 +83,7 @@ public class ProdutoDAO implements GenericDAO {
             stmt.setString(1, oProduto.getNomeProduto());
             stmt.setInt(2, oProduto.getMarca().getIdMarca());
             stmt.setInt(3, oProduto.getIdProduto());
-            stmt.setFloat(4, oProduto.getPreco()); 
+            stmt.setDouble(4, oProduto.getPreco()); 
             stmt.setString(5, oProduto.getDescricao()); 
             stmt.execute();
             return true;
@@ -139,8 +139,11 @@ public class ProdutoDAO implements GenericDAO {
             while (rs.next()) {                
                 oProduto = new Produto();
                 oProduto.setIdProduto(rs.getInt("idProduto"));
+                oProduto.setDescricao(rs.getString("descricao"));
+                oProduto.setPreco(rs.getDouble("preco"));
                 oProduto.setNomeProduto(rs.getString("nomeproduto"));
                 
+                                
                 MarcaDAO oMarcaDAO = new MarcaDAO();               
                 oProduto.setMarca((Marca) oMarcaDAO.carregar(rs.getInt("idmarca")));
             }
@@ -171,7 +174,8 @@ public class ProdutoDAO implements GenericDAO {
                 Produto oProduto = new Produto();
                 oProduto.setIdProduto(rs.getInt("idProduto"));
                 oProduto.setNomeProduto(rs.getString("nomeproduto"));
-                oProduto.setPreco(rs.getFloat("preco"));
+                oProduto.setDescricao(rs.getString("descricao"));
+                oProduto.setPreco(rs.getDouble("preco"));
 
                 try{
                     MarcaDAO oMarcaDAO = new MarcaDAO();
@@ -209,7 +213,8 @@ public class ProdutoDAO implements GenericDAO {
                 Produto oProduto = new Produto();
                 oProduto.setIdProduto(rs.getInt("idProduto"));
                 oProduto.setNomeProduto(rs.getString("nomeproduto"));
-                oProduto.setPreco(rs.getFloat("preco"));
+                oProduto.setDescricao(rs.getString("descricao"));
+                oProduto.setPreco(rs.getDouble("preco"));
 
                 try{
                     MarcaDAO oMarcaDAO = new MarcaDAO();
