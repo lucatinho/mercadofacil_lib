@@ -6,8 +6,8 @@
 package br.com.fatec.mercado_lib.dao;
 
 
-import br.com.fatec.mercado_lib.model.Pedido;
 import br.com.fatec.mercado_lib.model.Produto;
+import br.com.fatec.mercado_lib.model.Pedido;
 import br.com.fatec.mercado_lib.utils.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -51,11 +51,13 @@ public class PedidoDAO implements GenericDAO {
     public Boolean inserir(Object object) {
         Pedido oPedido = (Pedido) object;
         PreparedStatement stmt = null;
-        String sql = "insert into pedido (nomepedido,idproduto) values (?,?)";  
+        String sql = "insert into pedido (nomepedido,idproduto,preco,descricao) values (?,?,?,?)";  
         try {
             stmt = conexao.prepareStatement(sql);
-            stmt.setString(1, oPedido.getNomePedido());        
-            stmt.setInt(2, oPedido.getProduto().getIdProduto());        
+            stmt.setInt(1, oPedido.getProduto().getIdProduto());
+            stmt.setInt(2, oPedido.getCliente().getIdCliente());        
+            stmt.setDouble(3, oPedido.getPreco());
+            stmt.setString(4, oPedido.getDescricao()); 
             stmt.execute();
             return true;
         } catch (Exception ex) {
@@ -75,12 +77,14 @@ public class PedidoDAO implements GenericDAO {
     public Boolean alterar(Object object) {
         Pedido oPedido = (Pedido) object;
         PreparedStatement stmt = null;
-        String sql= "update pedido set nomepedido=?, idproduto=? where idPedido=?"; 
+        String sql= "update pedido set nomepedido=?, idproduto=?, idPedido=?, preco=?  where  descricao=?"; 
         try {
             stmt = conexao.prepareStatement(sql);
             stmt.setString(1, oPedido.getNomePedido());
             stmt.setInt(2, oPedido.getProduto().getIdProduto());
-            stmt.setInt(3, oPedido.getIdPedido());            
+            stmt.setInt(3, oPedido.getIdPedido());
+            stmt.setDouble(4, oPedido.getPreco()); 
+            stmt.setString(5, oPedido.getDescricao()); 
             stmt.execute();
             return true;
         } catch (Exception ex) {
@@ -135,8 +139,11 @@ public class PedidoDAO implements GenericDAO {
             while (rs.next()) {                
                 oPedido = new Pedido();
                 oPedido.setIdPedido(rs.getInt("idPedido"));
+                oPedido.setDescricao(rs.getString("descricao"));
+                oPedido.setPreco(rs.getDouble("preco"));
                 oPedido.setNomePedido(rs.getString("nomepedido"));
                 
+                                
                 ProdutoDAO oProdutoDAO = new ProdutoDAO();               
                 oPedido.setProduto((Produto) oProdutoDAO.carregar(rs.getInt("idproduto")));
             }
@@ -167,6 +174,8 @@ public class PedidoDAO implements GenericDAO {
                 Pedido oPedido = new Pedido();
                 oPedido.setIdPedido(rs.getInt("idPedido"));
                 oPedido.setNomePedido(rs.getString("nomepedido"));
+                oPedido.setDescricao(rs.getString("descricao"));
+                oPedido.setPreco(rs.getDouble("preco"));
 
                 try{
                     ProdutoDAO oProdutoDAO = new ProdutoDAO();
@@ -204,6 +213,8 @@ public class PedidoDAO implements GenericDAO {
                 Pedido oPedido = new Pedido();
                 oPedido.setIdPedido(rs.getInt("idPedido"));
                 oPedido.setNomePedido(rs.getString("nomepedido"));
+                oPedido.setDescricao(rs.getString("descricao"));
+                oPedido.setPreco(rs.getDouble("preco"));
 
                 try{
                     ProdutoDAO oProdutoDAO = new ProdutoDAO();
