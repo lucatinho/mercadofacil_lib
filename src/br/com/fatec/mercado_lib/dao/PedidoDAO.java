@@ -51,13 +51,12 @@ public class PedidoDAO implements GenericDAO {
     public Boolean inserir(Object object) {
         Pedido oPedido = (Pedido) object;
         PreparedStatement stmt = null;
-        String sql = "insert into pedido (idpedido,idcliente,idproduto,preco) values (?,?,?,?)";  
+        String sql = "insert into pedido (idpedido,idcliente,idproduto) values (?,?,?)";  
         try {
             stmt = conexao.prepareStatement(sql);
             stmt.setInt(1, oPedido.getIdPedido());
             stmt.setInt(2, oPedido.getCliente().getIdCliente());
             stmt.setInt(3, oPedido.getProduto().getIdProduto());
-            stmt.setDouble(4, oPedido.getProduto().getPreco());
             
             stmt.execute();
             return true;
@@ -78,13 +77,12 @@ public class PedidoDAO implements GenericDAO {
     public Boolean alterar(Object object) {
         Pedido oPedido = (Pedido) object;
         PreparedStatement stmt = null;
-        String sql= "update pedido set idpedido?, idcliente=?, idproduto=? where preco=?"; 
+        String sql= "update pedido set idpedido?, idcliente=? where idproduto=?"; 
         try {
             stmt = conexao.prepareStatement(sql);
-            stmt.setInt(3, oPedido.getIdPedido());
-            stmt.setInt(1, oPedido.getCliente().getIdCliente());
-            stmt.setInt(2, oPedido.getProduto().getIdProduto());
-            stmt.setDouble(4, oPedido.getProduto().getPreco()); 
+            stmt.setInt(1, oPedido.getIdPedido());
+            stmt.setInt(2, oPedido.getCliente().getIdCliente());
+            stmt.setInt(3, oPedido.getProduto().getIdProduto());
             stmt.execute();
             return true;
         } catch (Exception ex) {
