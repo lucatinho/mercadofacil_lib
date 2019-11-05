@@ -1,9 +1,5 @@
 package br.com.fatec.mercado_lib.model;
 
-/**
- *
- * @author not
- */
 public class Endereco {
 
     private int idEndereco;

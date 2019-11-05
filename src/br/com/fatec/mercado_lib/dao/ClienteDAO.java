@@ -6,8 +6,8 @@
 package br.com.fatec.mercado_lib.dao;
 
 
-import br.com.fatec.mercado_lib.model.Cidade;
-import br.com.fatec.mercado_lib.model.Pessoa;
+import br.com.fatec.mercado_lib.model.Cliente;
+import br.com.fatec.mercado_lib.model.Endereco;
 import br.com.fatec.mercado_lib.utils.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,11 +22,11 @@ import java.util.logging.Logger;
  *
  * @author jeffersonpasserini
  */
-public class PessoaDAO implements GenericDAO {
+public class ClienteDAO implements GenericDAO {
     
     private Connection conexao;
     
-    public PessoaDAO() throws Exception{
+    public ClienteDAO() throws Exception{
         try {
             this.conexao = ConnectionFactory.getConnection();
             System.out.println("Conectado com Sucesso"); 
@@ -37,31 +37,30 @@ public class PessoaDAO implements GenericDAO {
     
     @Override
     public Boolean cadastrar(Object object) {
-        Pessoa oPessoa = (Pessoa) object;
+        Cliente oCliente = (Cliente) object;
         Boolean retorno=false;
-        if (oPessoa.getIdPessoa()== 0) {
-            retorno = this.inserir(oPessoa);
+        if (oCliente.getIdCliente()== 0) {
+            retorno = this.inserir(oCliente);
         }else{
-            retorno = this.alterar(oPessoa);
+            retorno = this.alterar(oCliente);
         }
         return retorno;
     }
 
     @Override
     public Boolean inserir(Object object) {
-        Pessoa oPessoa = (Pessoa) object;
+        Cliente oCliente = (Cliente) object;
         PreparedStatement stmt = null;
-        String sql = "insert into pessoa (nomepessoa,idcidade,preco,descricao) values (?,?,?,?)";  
+        String sql = "insert into cidade (nomepessoa,CPF,idendereco) values (?,?,?)";  
         try {
             stmt = conexao.prepareStatement(sql);
-            stmt.setString(1, oPessoa.getNomePessoa());        
-            stmt.setInt(2, oPessoa.getCidade().getIdCidade());
-            stmt.setDouble(3, oPessoa.getPreco());
-            stmt.setString(4, oPessoa.getDescricao()); 
+            stmt.setString(1, oCliente.getNomePessoa());        
+            stmt.setDouble(2, oCliente.getCPF());        
+            stmt.setInt(3, oCliente.getEndereco().getIdEndereco());        
             stmt.execute();
             return true;
         } catch (Exception ex) {
-            System.out.println("Problemas ao cadastrar a Pessoa! Erro: "+ex.getMessage());
+            System.out.println("Problemas ao cadastrar a Cliente! Erro: "+ex.getMessage());
             return false;
         }
         finally{
@@ -75,20 +74,19 @@ public class PessoaDAO implements GenericDAO {
 
     @Override
     public Boolean alterar(Object object) {
-        Pessoa oPessoa = (Pessoa) object;
+        Cliente oCliente = (Cliente) object;
         PreparedStatement stmt = null;
-        String sql= "update pessoa set nomepessoa=?, idcidade=?, idPessoa=?, preco=?  where  descricao=?"; 
+        String sql= "update cidade set nomecidade=?, CPF=?, idEndereco=? where idCliente=?"; 
         try {
             stmt = conexao.prepareStatement(sql);
-            stmt.setString(1, oPessoa.getNomePessoa());
-            stmt.setInt(2, oPessoa.getCidade().getIdCidade());
-            stmt.setInt(3, oPessoa.getIdPessoa());
-            stmt.setDouble(4, oPessoa.getPreco()); 
-            stmt.setString(5, oPessoa.getDescricao()); 
+            stmt.setString(1, oCliente.getNomePessoa());
+            stmt.setDouble(2, oCliente.getCPF());
+            stmt.setInt(3, oCliente.getEndereco().getIdEndereco());
+            stmt.setInt(4, oCliente.getIdCliente());            
             stmt.execute();
             return true;
         } catch (Exception ex) {
-            System.out.println("Problemas ao alterar Pessoa! Erro: "+ex.getMessage());
+            System.out.println("Problemas ao alterar Cliente! Erro: "+ex.getMessage());
             return false;
         }
         finally{
@@ -102,17 +100,17 @@ public class PessoaDAO implements GenericDAO {
 
     @Override
     public Boolean excluir(int id) {
-        int idPessoa = id;
+        int idCliente = id;
         PreparedStatement stmt= null;
 
-        String sql = "delete from pessoa where idpessoa=?";
+        String sql = "delete from cidade where idcidade=?";
         try {
             stmt = conexao.prepareStatement(sql);         
-            stmt.setInt(1, idPessoa);
+            stmt.setInt(1, idCliente);
             stmt.execute();
             return true;         
         } catch (Exception ex) {
-            System.out.println("Problemas ao excluir a Pessoa! Erro: "+ex.getMessage());
+            System.out.println("Problemas ao excluir a Cliente! Erro: "+ex.getMessage());
             return false;           
         }
         finally{
@@ -126,30 +124,27 @@ public class PessoaDAO implements GenericDAO {
 
     @Override
     public Object carregar(int numero) {
-        int idPessoa = numero;
+        int idCliente = numero;
         PreparedStatement stmt = null;
         ResultSet rs= null;
-        Pessoa oPessoa = null;
-        String sql="select * from pessoa where idPessoa=?";
+        Cliente oCliente = null;
+        String sql="select * from cidade where idCliente=?";
         
         try {
             stmt = conexao.prepareStatement(sql);
-            stmt.setInt(1,idPessoa);            
+            stmt.setInt(1,idCliente);            
             rs=stmt.executeQuery();          
             while (rs.next()) {                
-                oPessoa = new Pessoa();
-                oPessoa.setIdPessoa(rs.getInt("idPessoa"));
-                oPessoa.setDescricao(rs.getString("descricao"));
-                oPessoa.setPreco(rs.getDouble("preco"));
-                oPessoa.setNomePessoa(rs.getString("nomepessoa"));
+                oCliente = new Cliente();
+                oCliente.setIdCliente(rs.getInt("idCliente"));
+                oCliente.setNomePessoa(rs.getString("nomecidade"));
                 
-                                
-                CidadeDAO oCidadeDAO = new CidadeDAO();               
-                oPessoa.setCidade((Cidade) oCidadeDAO.carregar(rs.getInt("idcidade")));
+                EnderecoDAO oEnderecoDAO = new EnderecoDAO();               
+                oCliente.setEndereco((Endereco) oEnderecoDAO.carregar(rs.getInt("idendereco")));
             }
-            return oPessoa;
+            return oCliente;
         } catch (Exception ex) {
-            System.out.println("Problemas ao carregar Pessoa! Erro: "+ex.getMessage());
+            System.out.println("Problemas ao carregar Cliente! Erro: "+ex.getMessage());
             return false;   
         }
         finally{
@@ -166,29 +161,27 @@ public class PessoaDAO implements GenericDAO {
         List<Object> resultado = new ArrayList<>();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        String sql = "Select * from pessoa order by nomepessoa";               
+        String sql = "Select * from cidade order by nomecidade";               
         try {
             stmt = conexao.prepareStatement(sql);
             rs=stmt.executeQuery();           
             while (rs.next()) {                
-                Pessoa oPessoa = new Pessoa();
-                oPessoa.setIdPessoa(rs.getInt("idPessoa"));
-                oPessoa.setNomePessoa(rs.getString("nomepessoa"));
-                oPessoa.setDescricao(rs.getString("descricao"));
-                oPessoa.setPreco(rs.getDouble("preco"));
+                Cliente oCliente = new Cliente();
+                oCliente.setIdCliente(rs.getInt("idCliente"));
+                oCliente.setNomePessoa(rs.getString("nomecidade"));
 
                 try{
-                    CidadeDAO oCidadeDAO = new CidadeDAO();
-                    oPessoa.setCidade((Cidade) oCidadeDAO.carregar(rs.getInt("idcidade")));
+                    EnderecoDAO oEnderecoDAO = new EnderecoDAO();
+                    oCliente.setEndereco((Endereco) oEnderecoDAO.carregar(rs.getInt("idendereco")));
                 } catch (Exception ex) {
-                    System.out.println("Problemas ao listar Pessoa! Erro: "+ex.getMessage());
+                    System.out.println("Problemas ao listar Cliente! Erro: "+ex.getMessage());
                 }
                 
-                resultado.add(oPessoa);
+                resultado.add(oCliente);
             }
         
         }catch (SQLException ex) {
-            System.out.println("Problemas ao listar Pessoa! Erro: "+ex.getMessage());
+            System.out.println("Problemas ao listar Cliente! Erro: "+ex.getMessage());
         }
         finally{
             try{
@@ -200,36 +193,34 @@ public class PessoaDAO implements GenericDAO {
         return resultado;
     }
 
-    public List<Pessoa> listar(int idCidade) {
-        List<Pessoa> resultado = new ArrayList<>();
+    public List<Cliente> listar(int idEndereco) {
+        List<Cliente> resultado = new ArrayList<>();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        String sql = "Select * from pessoa where idcidade = ? order by nomepessoa";               
+        String sql = "Select * from cidade where idendereco = ? order by nomecidade";               
         try {
             stmt = conexao.prepareStatement(sql);
-            stmt.setInt(1, idCidade);
+            stmt.setInt(1, idEndereco);
             rs=stmt.executeQuery();           
             while (rs.next()) {                
-                Pessoa oPessoa = new Pessoa();
-                oPessoa.setIdPessoa(rs.getInt("idPessoa"));
-                oPessoa.setNomePessoa(rs.getString("nomepessoa"));
-                oPessoa.setDescricao(rs.getString("descricao"));
-                oPessoa.setPreco(rs.getDouble("preco"));
+                Cliente oCliente = new Cliente();
+                oCliente.setIdCliente(rs.getInt("idCliente"));
+                oCliente.setNomePessoa(rs.getString("nomecidade"));
 
                 try{
-                    CidadeDAO oCidadeDAO = new CidadeDAO();
-                    oPessoa.setCidade((Cidade) 
-                            oCidadeDAO.carregar(rs.getInt("idcidade")));
+                    EnderecoDAO oEnderecoDAO = new EnderecoDAO();
+                    oCliente.setEndereco((Endereco) 
+                            oEnderecoDAO.carregar(rs.getInt("idendereco")));
                 } catch (Exception ex) {
-                    System.out.println("Problemas ao listar Pessoa! Erro: "
+                    System.out.println("Problemas ao listar Cliente! Erro: "
                             +ex.getMessage());
                 }
                 
-                resultado.add(oPessoa);
+                resultado.add(oCliente);
             }
         
         }catch (SQLException ex) {
-            System.out.println("Problemas ao listar Pessoa! Erro: "
+            System.out.println("Problemas ao listar Cliente! Erro: "
                     +ex.getMessage());
         }
         finally{

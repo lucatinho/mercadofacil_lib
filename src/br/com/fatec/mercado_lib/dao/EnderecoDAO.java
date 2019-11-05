@@ -51,11 +51,12 @@ public class EnderecoDAO implements GenericDAO {
     public Boolean inserir(Object object) {
         Endereco oEndereco = (Endereco) object;
         PreparedStatement stmt = null;
-        String sql = "insert into endereco (rua,idcidade) values (?,?)";  
+        String sql = "insert into endereco (rua,idcidade,numeroCasa) values (?,?,?)";  
         try {
             stmt = conexao.prepareStatement(sql);
-            stmt.setString(1, oEndereco.getRua());        
-            stmt.setInt(2, oEndereco.getCidade().getIdCidade());        
+            stmt.setString(1, oEndereco.getRua());                
+            stmt.setInt(2, oEndereco.getCidade().getIdCidade());
+            stmt.setInt(3, oEndereco.getNumeroCasa());
             stmt.execute();
             return true;
         } catch (Exception ex) {
@@ -75,12 +76,13 @@ public class EnderecoDAO implements GenericDAO {
     public Boolean alterar(Object object) {
         Endereco oEndereco = (Endereco) object;
         PreparedStatement stmt = null;
-        String sql= "update endereco set rua=?, idcidade=? where idEndereco=?"; 
+        String sql= "update endereco set rua=?, idcidade=?, numeroCasa=? where idEndereco=?"; 
         try {
             stmt = conexao.prepareStatement(sql);
             stmt.setString(1, oEndereco.getRua());
             stmt.setInt(2, oEndereco.getCidade().getIdCidade());
-            stmt.setInt(3, oEndereco.getIdEndereco());            
+            stmt.setInt(3, oEndereco.getNumeroCasa());
+            stmt.setInt(4, oEndereco.getIdEndereco());            
             stmt.execute();
             return true;
         } catch (Exception ex) {
@@ -167,7 +169,8 @@ public class EnderecoDAO implements GenericDAO {
                 Endereco oEndereco = new Endereco();
                 oEndereco.setIdEndereco(rs.getInt("idEndereco"));
                 oEndereco.setRua(rs.getString("rua"));
-
+                oEndereco.setNumeroCasa(rs.getInt("numeroCasa"));
+                
                 try{
                     CidadeDAO oCidadeDAO = new CidadeDAO();
                     oEndereco.setCidade((Cidade) oCidadeDAO.carregar(rs.getInt("idcidade")));
@@ -204,6 +207,7 @@ public class EnderecoDAO implements GenericDAO {
                 Endereco oEndereco = new Endereco();
                 oEndereco.setIdEndereco(rs.getInt("idEndereco"));
                 oEndereco.setRua(rs.getString("rua"));
+                oEndereco.setNumeroCasa(rs.getInt("numeroCasa"));
 
                 try{
                     CidadeDAO oCidadeDAO = new CidadeDAO();

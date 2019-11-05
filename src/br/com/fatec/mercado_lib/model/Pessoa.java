@@ -5,21 +5,21 @@ public class Pessoa {
     private int idPessoa;
     private String nomePessoa;
     private double CPF;
-    private Cidade cidade;
+    private Endereco endereco;
 
     public Pessoa() {
         this.idPessoa=0;
         this.nomePessoa = "";
         this.CPF = 0;
-        Cidade oCidade = new Cidade();
-        this.cidade = oCidade;
+        Endereco oEndereco = new Endereco();
+        this.endereco = oEndereco;
     }
 
-    public Pessoa(int idPessoa, String nomePessoa, double CPF, Cidade cidade) {
+    public Pessoa(int idPessoa, String nomePessoa, double CPF, Endereco endereco) {
         this.idPessoa = idPessoa;
         this.nomePessoa = nomePessoa;
         this.CPF = CPF;
-        this.cidade = cidade;
+        this.endereco = endereco;
     }
 
     public String getNomePessoa() {
@@ -30,13 +30,6 @@ public class Pessoa {
         this.nomePessoa = nomePessoa;
     }
 
-    public Cidade getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(Cidade cidade) {
-        this.cidade = cidade;
-    }
 
     public int getIdPessoa() {
         return idPessoa;
@@ -52,5 +45,13 @@ public class Pessoa {
 
     public void setCPF(double CPF) {
         this.CPF = CPF;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 }
