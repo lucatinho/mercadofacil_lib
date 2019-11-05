@@ -38,7 +38,7 @@ public class Pessoa {
     public void setIdPessoa(int idPessoa) {
         this.idPessoa = idPessoa;
     }
-
+        
     public double getCPF() {
         return CPF;
     }
