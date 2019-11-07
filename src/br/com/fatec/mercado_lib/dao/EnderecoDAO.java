@@ -54,7 +54,7 @@ public class EnderecoDAO implements GenericDAO {
         String sql = "insert into endereco (CEP,rua,numerocasa,idcidade) values (?,?,?,?)";  
         try {
             stmt = conexao.prepareStatement(sql);
-            stmt.setDouble(1, oEndereco.getCEP());                
+            stmt.setString(1, oEndereco.getCEP());                
             stmt.setString(2, oEndereco.getRua());
             stmt.setInt(3, oEndereco.getNumeroCasa());
             stmt.setInt(4, oEndereco.getCidade().getIdCidade());  
@@ -77,14 +77,14 @@ public class EnderecoDAO implements GenericDAO {
     public Boolean alterar(Object object) {
         Endereco oEndereco = (Endereco) object;
         PreparedStatement stmt = null;
-        String sql= "update endereco set CEP=?, rua=?, numerocasa=? idcidade=? where idEndereco=?"; 
+        String sql= "update endereco set idEndereco=?, CEP=?, rua=?, numerocasa=? where idcidade=?"; 
         try {
             stmt = conexao.prepareStatement(sql);
-            stmt.setDouble(1, oEndereco.getCEP());                
-            stmt.setString(2, oEndereco.getRua());
-            stmt.setInt(3, oEndereco.getNumeroCasa());
-            stmt.setInt(4, oEndereco.getCidade().getIdCidade());          
-            stmt.setInt(5, oEndereco.getIdEndereco());          
+            stmt.setInt(1, oEndereco.getIdEndereco());
+            stmt.setString(2, oEndereco.getCEP());                
+            stmt.setString(3, oEndereco.getRua());
+            stmt.setInt(4, oEndereco.getNumeroCasa());
+            stmt.setInt(5, oEndereco.getCidade().getIdCidade());          
             stmt.execute();
             return true;
         } catch (Exception ex) {
@@ -139,7 +139,7 @@ public class EnderecoDAO implements GenericDAO {
             while (rs.next()) {                
                 oEndereco = new Endereco();
                 oEndereco.setIdEndereco(rs.getInt("idEndereco"));
-                oEndereco.setCEP(rs.getInt("CEP"));
+                oEndereco.setCEP(rs.getString("CEP"));
                 oEndereco.setRua(rs.getString("rua"));
                 oEndereco.setNumeroCasa(rs.getInt("numeroCasa"));
                 

@@ -6,7 +6,7 @@ public class Endereco {
     private Cidade cidade;
     private String rua;
     private int numeroCasa;
-    private double CEP;
+    private String CEP;
 
     public Endereco() {
         this.idEndereco = 0;
@@ -14,10 +14,10 @@ public class Endereco {
         this.cidade = oCidade;
         this.rua = "";
         this.numeroCasa = 0;
-        this.CEP = 0;
+        this.CEP = "";
     }
 
-    public Endereco(int idEndereco, Cidade cidade, String rua,int numeroCasa, double CEP) {
+    public Endereco(int idEndereco, Cidade cidade, String rua,int numeroCasa, String CEP) {
         this.idEndereco = idEndereco;
         this.cidade = cidade;
         this.rua = rua;
@@ -57,11 +57,11 @@ public class Endereco {
         this.numeroCasa = numeroCasa;
     }
 
-    public double getCEP() {
+    public String getCEP() {
         return CEP;
     }
 
-    public void setCEP(double CEP) {
+    public void setCEP(String CEP) {
         this.CEP = CEP;
     }
 }
