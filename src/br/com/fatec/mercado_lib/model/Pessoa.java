@@ -1,35 +1,31 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package br.com.fatec.mercado_lib.model;
 
+import java.util.Date;
+
+/**
+ *
+ * @author jeffersonpasserini
+ */
 public class Pessoa {
-
+    
     private int idPessoa;
-    private String nomePessoa;
-    private double CPF;
-    private Endereco endereco;
+    private String cpf;
+    private String nome;
+    private Date dataNascimento;
+    private Cidade cidade;
 
-    public Pessoa() {
-        this.idPessoa=0;
-        this.nomePessoa = "";
-        this.CPF = 0;
-        Endereco oEndereco = new Endereco();
-        this.endereco = oEndereco;
-    }
-
-    public Pessoa(int idPessoa, String nomePessoa, double CPF, Endereco endereco) {
+    public Pessoa(int idPessoa, String cpf, String nome, Date dataNascimento, Cidade cidade) {
         this.idPessoa = idPessoa;
-        this.nomePessoa = nomePessoa;
-        this.CPF = CPF;
-        this.endereco = endereco;
+        this.cpf = cpf;
+        this.nome = nome;
+        this.dataNascimento = dataNascimento;
+        this.cidade = cidade;
     }
-
-    public String getNomePessoa() {
-        return nomePessoa;
-    }
-
-    public void setNomePessoa(String nomePessoa) {
-        this.nomePessoa = nomePessoa;
-    }
-
 
     public int getIdPessoa() {
         return idPessoa;
@@ -38,20 +34,36 @@ public class Pessoa {
     public void setIdPessoa(int idPessoa) {
         this.idPessoa = idPessoa;
     }
-        
-    public double getCPF() {
-        return CPF;
+
+    public String getCpf() {
+        return cpf;
     }
 
-    public void setCPF(double CPF) {
-        this.CPF = CPF;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
-    public Endereco getEndereco() {
-        return endereco;
+    public String getNome() {
+        return nome;
     }
 
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
+
+    public Date getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    public Cidade getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(Cidade cidade) {
+        this.cidade = cidade;
+    }  
 }

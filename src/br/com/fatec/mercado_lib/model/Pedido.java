@@ -12,8 +12,6 @@ public class Pedido {
         Produto oProduto = new Produto();
         this.produto = oProduto;
         this.qtdProduto =0;
-        Cliente oCliente = new Cliente();
-        this.cliente = oCliente;
     }
 
     public Pedido(int idPedido, Produto produto, int qtdProduto, Cliente cliente) {

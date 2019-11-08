@@ -10,7 +10,6 @@ public class Produto {
     private String nomeProduto;
     private String descricao;
     private Marca marca;
-    private Cliente cliente;
     private double preco;
     
     
@@ -20,16 +19,13 @@ public class Produto {
         this.descricao="";
         Marca oMarca = new Marca();
         this.marca = oMarca;
-        Cliente oCliente = new Cliente();
-        this.cliente = oCliente;
         this.preco = 0.00;
     }
 
-    public Produto(int idProduto, String nomeProduto, String descricao, Marca marca, Cliente cliente, double preco) {
+    public Produto(int idProduto, String nomeProduto, String descricao, Marca marca, double preco) {
         this.idProduto = idProduto;
         this.nomeProduto = nomeProduto;
         this.marca = marca;
-        this.cliente = cliente;
         this.descricao=descricao;
         this.preco=preco;
     }
@@ -71,14 +67,5 @@ public class Produto {
  
     public void setPreco(double preco) {
         this.preco = preco;
-    }
- 
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-    
+    }   
 }
