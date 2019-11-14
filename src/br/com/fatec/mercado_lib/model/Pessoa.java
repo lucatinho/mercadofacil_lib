@@ -7,12 +7,8 @@ package br.com.fatec.mercado_lib.model;
 
 import java.util.Date;
 
-/**
- *
- * @author jeffersonpasserini
- */
 public class Pessoa {
-    
+
     private int idPessoa;
     private String cpf;
     private String nome;
@@ -65,5 +61,5 @@ public class Pessoa {
 
     public void setCidade(Cidade cidade) {
         this.cidade = cidade;
-    }  
+    }
 }

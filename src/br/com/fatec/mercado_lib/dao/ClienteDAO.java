@@ -1,9 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.fatec.mercado_lib.dao;
+
 
 
 import br.com.fatec.mercado_lib.model.Cidade;
@@ -65,7 +61,7 @@ public class ClienteDAO implements GenericDAO {
     public Boolean inserir(Object objeto) {
         Cliente oCliente = (Cliente) objeto;
         PreparedStatement stmt = null;
-        String sql = "insert into cliente (idPessoa, situacao) values (?, ?)";
+        String sql = "insert into cliente (idPessoa, rua, situacao) values (?, ?, ?)";
         
         try{
             PessoaDAO oPessoaDAO = new PessoaDAO();
@@ -73,7 +69,8 @@ public class ClienteDAO implements GenericDAO {
             
             stmt = conexao.prepareStatement(sql);
             stmt.setInt(1, idPessoa);
-            stmt.setString(2, "A");
+            stmt.setString(2, oCliente.getRua());
+            stmt.setString(3, "A");
             stmt.execute();
             
             return true;
@@ -93,14 +90,15 @@ public class ClienteDAO implements GenericDAO {
     public Boolean alterar(Object objeto) {
         Cliente oCliente = (Cliente) objeto;
         PreparedStatement stmt = null;
-        String sql = "update cliente set idCliente=?";
+        String sql = "update cliente set rua=? where idCliente=?";
         
         try{
             PessoaDAO oPessoaDAO = new PessoaDAO();
             oPessoaDAO.cadastrar(oCliente);
             
             stmt = conexao.prepareStatement(sql);
-            stmt.setInt(1, oCliente.getIdCliente());
+            stmt.setString(1, oCliente.getRua());
+            stmt.setInt(2, oCliente.getIdCliente());
             stmt.execute();
             
             return true;
@@ -177,6 +175,7 @@ public class ClienteDAO implements GenericDAO {
                 }
             
                 oCliente = new Cliente(rs.getInt("idcliente"),
+                                       rs.getString("rua"),
                                        rs.getString("situacao"),
                                        rs.getInt("idpessoa"),
                                        rs.getString("cpf"),
@@ -203,7 +202,7 @@ public class ClienteDAO implements GenericDAO {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
-        String sql= "Select p.*, c.idcliente, c.situacao "
+        String sql= "Select p.*, c.idcliente, c.rua, c.situacao "
                 + "from cliente c, pessoa p "
                 + "where c.idpessoa = p.idpessoa order by idPessoa";
         try{
@@ -223,6 +222,7 @@ public class ClienteDAO implements GenericDAO {
                 }
                 
                 Cliente oCliente = new Cliente(rs.getInt("idcliente"),
+                                       rs.getString("rua"),
                                        rs.getString("situacao"),
                                        rs.getInt("idpessoa"),
                                        rs.getString("cpf"),
@@ -263,5 +263,5 @@ public class ClienteDAO implements GenericDAO {
             System.out.println("Problemas ai carregar pessoa! Erro: "+ex.getMessage());
             return idCliente;
         }
-    }     
+    }      
 }
