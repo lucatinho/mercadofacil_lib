@@ -6,34 +6,33 @@ package br.com.fatec.mercado_lib.model;
  */
 public class Categoria {
 
-    /**
-     * @return the idCategoria
-     */
+    private int idCategoria;
+    private String nomeCategoria;
+
+    public Categoria() {
+        this.idCategoria = 0;
+        this.nomeCategoria = "";
+    }
+
+    public Categoria(int idCategoria, String nomeCategoria) {
+        this.idCategoria = idCategoria;
+        this.nomeCategoria = nomeCategoria;
+    }
+
     public int getIdCategoria() {
         return idCategoria;
     }
 
-    /**
-     * @param idCategoria the idCategoria to set
-     */
     public void setIdCategoria(int idCategoria) {
         this.idCategoria = idCategoria;
     }
 
-    /**
-     * @return the nomeCategoria
-     */
     public String getNomeCategoria() {
         return nomeCategoria;
     }
 
-    /**
-     * @param nomeCategoria the nomeCategoria to set
-     */
     public void setNomeCategoria(String nomeCategoria) {
         this.nomeCategoria = nomeCategoria;
     }
-    
-    private int idCategoria;
-    private String nomeCategoria;
+
 }
